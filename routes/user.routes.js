@@ -8,6 +8,12 @@ router.get('/', userController.getAllUsers);
 // This handles GET /users/:id
 router.get('/:id', userController.getUserById);
 
+// This handles POST /users/
+router.post('/', userController.createUser);
+
+// This handles DELETE /users/:id
+router.delete('/:id', userController.deleteUser);
+
 module.exports = router;
 
 
