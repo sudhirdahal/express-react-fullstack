@@ -1,50 +1,40 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <title>Modern Store</title>
-    <link rel="stylesheet" href="/CSS/style.css">
-</head>
-<body> -->
 <%- include('partials/head') %>
     <h1>Our Professional Catalog</h1>
-    <form action="/api/v1/products/view" method="GET" style="margin-bottom: 20px;">
-        <input type="text" name="search" placeholder="Search by name..." value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>">
-         <select name="sort">
-            <option value="newest">Newest First</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-        </select>        
-        
-        <button type="submit">Apply</button>
-        <a href="/api/v1/products/view">Clear</a>
+
+    <form action="/api/v1/products/view" method="GET" class="filter-form">
+        <input type="text" name="search" placeholder="Search products..." value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>">
+        <select name="sort">
+            <option value="newest" <%= currentSort === 'newest' ? 'selected' : '' %>>Newest First</option>
+            <option value="price_asc" <%= currentSort === 'price_asc' ? 'selected' : '' %>>Price: Low to High</option>
+            <option value="price_desc" <%= currentSort === 'price_desc' ? 'selected' : '' %>>Price: High to Low</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Apply</button>
+        <a href="/api/v1/products/view" class="btn-link">Clear</a>
     </form>
-    <div class="product-grid">
+
+    <div class="card-grid">
         <% products.forEach(product => { %>
-            <div class="product-card">
+            <div class="card">
+                <div class="product-icon">$</div>
                 <h3><%= product.name %></h3>
                 <p class="price">$<%= product.price %></p>
-                <button style="background: #3498db; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">
-                    Add to Cart
-                </button>
+                <p class="subtitle">Added <%= new Date(product.createdAt).toLocaleDateString() %></p>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Add to Cart</button>
+                    <form action="/api/v1/products/delete/<%= product._id %>" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this product?')">Delete</button>
+                    </form>
+                </div>
             </div>
         <% }) %>
     </div>
-    <hr>
-    <h2>Add a New Product</h2>
-    <form action="/api/v1/products/submit-form" method="POST">
-        <input type="text" name="name" placeholder="Product Name" required>
-        <input type="number" name="price" placeholder="Price" required>
-        <button type="submit">Create Product</button>
-    </form>
-    <ul>
-        <% products.forEach(product => { %>
-            <li>
-                <strong><%= product.name %></strong> - $<%= product.price %>
-      
-                <form action="/api/v1/products/delete/<%= product._id %>" method="POST" style="display:inline;">
-                    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                </form>
-            </li>
-        <% }) %>
-    </ul>
+
+    <div class="add-form">
+        <h2>Add a New Product</h2>
+        <form action="/api/v1/products/submit-form" method="POST">
+            <input type="text" name="name" placeholder="Product Name" required>
+            <input type="number" name="price" placeholder="Price" required>
+            <button type="submit" class="btn btn-success">Create Product</button>
+        </form>
+    </div>
 <%- include('partials/footer') %>

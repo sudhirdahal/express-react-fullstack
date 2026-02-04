@@ -5,6 +5,15 @@ const userController = require('../controllers/user.controller');
 // This handles GET /users/
 router.get('/', userController.getAllUsers);
 
+// This handles GET /users/view (HTML page)
+router.get('/view', userController.getUsersView);
+
+// This handles POST /users/submit-form (from HTML form)
+router.post('/submit-form', userController.createUserForm);
+
+// This handles POST /users/delete/:id (from HTML form)
+router.post('/delete/:id', userController.deleteUserAndRedirect);
+
 // This handles GET /users/:id
 router.get('/:id', userController.getUserById);
 

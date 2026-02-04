@@ -2,7 +2,7 @@ body {
     background-color: #f4f7f6;
     color: #333;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    max-width: 800px;
+    max-width: 900px;
     margin: 40px auto;
     padding: 0 20px;
 }
@@ -14,55 +14,206 @@ h1 {
     padding-bottom: 10px;
 }
 
-.product-grid {
+h2 {
+    color: #2c3e50;
+}
+
+/* Navigation */
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+nav a.active {
+    font-weight: bold;
+    color: blue;
+    border-bottom: 2px solid blue;
+}
+
+/* Shared grid layout */
+.card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     margin-top: 30px;
 }
 
-.product-card {
+/* Shared card styles */
+.card {
     background: white;
     border-radius: 12px;
-    padding: 20px;
+    padding: 25px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: transform 0.2s;
     text-align: center;
 }
 
-.product-card:hover {
+.card:hover {
     transform: translateY(-5px);
 }
 
+.card h3 {
+    margin: 10px 0 5px;
+    color: #2c3e50;
+}
+
+/* Avatar for users */
+.avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Product icon */
+.product-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Price styling */
 .price {
     font-weight: bold;
     color: #27ae60;
     font-size: 1.2rem;
+    margin: 10px 0;
 }
 
-/* Normal link style */
-/* nav a {
+/* Subtitle text (joined date, created date) */
+.subtitle {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+/* Search/Filter form */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-form input[type="text"] {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-form select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+.btn-success {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #1e8449;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+.btn-link {
+    background: none;
+    color: #7f8c8d;
     text-decoration: none;
-    color: black;
     padding: 10px;
-} */
-
-/* The style applied ONLY when page_name matches */
-/* nav a.active {
-    color: blue;
-    font-weight: bold;
-    border-bottom: 2px solid blue;
-} */
-
-/* This targets all links in your nav and removes the browser's default line */
-nav a {
-    text-decoration: none; /* This kills the underline/strikethrough */
-    color: #333;           /* This overrides the -webkit-link blue color */
 }
 
-/* This adds a fresh style only when the link is active */
-nav a.active {
-    font-weight: bold;
-    color: blue;
-    border-bottom: 2px solid blue; /* A cleaner way to show it's active */
+.btn-link:hover {
+    color: #333;
+}
+
+/* Add form section */
+.add-form {
+    margin-top: 30px;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.add-form h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.add-form form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-form input {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    flex: 1;
+    min-width: 120px;
+}
+
+/* Card action buttons */
+.card-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
 }
