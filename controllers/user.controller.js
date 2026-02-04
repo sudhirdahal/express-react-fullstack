@@ -1,53 +1,24 @@
 const User = require('../models/user.model');
 
-exports.getUsersView = async (req, res) => {
+// GET all users with optional search and sort
+exports.getAllUsers = async (req, res) => {
     try {
         const { search, sort } = req.query;
         let query = {};
-        let sortOption = { createdAt: -1 };
+        let sortOption = { createdAt: -1 }; // Default: Newest first
 
+        // Handle search/filtering
         if (search) {
             query.name = { $regex: search, $options: 'i' };
         }
 
+        // Handle sorting
         if (sort === 'oldest') sortOption = { createdAt: 1 };
         else if (sort === 'name_asc') sortOption = { name: 1 };
         else if (sort === 'name_desc') sortOption = { name: -1 };
 
         const users = await User.find(query).sort(sortOption);
-        res.render('users', {
-            title: 'Users',
-            page_name: 'Users',
-            users,
-            searchTerm: search || '',
-            currentSort: sort || 'newest'
-        });
-    } catch (error) {
-        res.status(500).json({ status: 'error', message: error.message });
-    }
-};
 
-exports.createUserForm = async (req, res) => {
-    try {
-        await User.create(req.body);
-        res.redirect('/api/v1/users/view');
-    } catch (error) {
-        res.status(400).json({ status: 'error', message: error.message });
-    }
-};
-
-exports.deleteUserAndRedirect = async (req, res) => {
-    try {
-        await User.findByIdAndDelete(req.params.id);
-        res.redirect('/api/v1/users/view');
-    } catch (error) {
-        res.status(500).json({ status: 'error', message: error.message });
-    }
-};
-
-exports.getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find();
         res.status(200).json({
             status: 'success',
             results: users.length,
@@ -58,6 +29,7 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
+// GET single user by ID
 exports.getUserById = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -72,15 +44,24 @@ exports.getUserById = async (req, res) => {
     }
 };
 
+// POST create a new user
 exports.createUser = async (req, res) => {
     try {
-        const user = await User.create(req.body);
+        const { name } = req.body;
+
+        if (!name) {
+            return res.status(400).json({ status: 'fail', message: 'Name is required' });
+        }
+
+        const user = await User.create({ name });
+
         res.status(201).json({ status: 'success', data: { user } });
     } catch (error) {
         res.status(400).json({ status: 'error', message: error.message });
     }
 };
 
+// DELETE a user
 exports.deleteUser = async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);

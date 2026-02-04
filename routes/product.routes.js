@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/product.controller');
-const auth = require('../middleware/auth'); // Import the guard
+const auth = require('../middleware/auth');
 
-// A public route for the visual page
-router.get('/view', productController.getProductsPage);
+// GET /api/v1/products - Get all products (supports ?search=&sort=)
+router.get('/', productController.getAllProducts);
 
-router.route('/')
-    .get(productController.getAllProducts)
-    .post(auth, productController.createProduct);
+// GET /api/v1/products/:id - Get product by ID
+router.get('/:id', productController.getProductById);
 
-router.post('/submit-form', productController.createProduct);
+// POST /api/v1/products - Create a new product (requires auth)
+router.post('/', auth, productController.createProduct);
 
-router.post('/delete/:id', productController.deleteProduct);
-
+// DELETE /api/v1/products/:id - Delete a product
+router.delete('/:id', productController.deleteProduct);
 
 module.exports = router;

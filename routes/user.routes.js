@@ -2,40 +2,16 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
 
-// This handles GET /users/
+// GET /api/v1/users - Get all users (supports ?search=&sort=)
 router.get('/', userController.getAllUsers);
 
-// This handles GET /users/view (HTML page)
-router.get('/view', userController.getUsersView);
-
-// This handles POST /users/submit-form (from HTML form)
-router.post('/submit-form', userController.createUserForm);
-
-// This handles POST /users/delete/:id (from HTML form)
-router.post('/delete/:id', userController.deleteUserAndRedirect);
-
-// This handles GET /users/:id
+// GET /api/v1/users/:id - Get user by ID
 router.get('/:id', userController.getUserById);
 
-// This handles POST /users/
+// POST /api/v1/users - Create a new user
 router.post('/', userController.createUser);
 
-// This handles DELETE /users/:id
+// DELETE /api/v1/users/:id - Delete a user
 router.delete('/:id', userController.deleteUser);
 
 module.exports = router;
-
-
-
-
-
-
-
-/* const express = require('express');
-const router = express.Router();
-
-router.get('/profile', (req, res) => {
-    res.send('User Profile Page');
-})
-
-module.exports = router; */

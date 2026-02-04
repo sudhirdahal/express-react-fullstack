@@ -4,44 +4,69 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build & Run Commands
 
-- **Start server**: `npm start` (runs `node server.js` on port 3000)
-- **Install dependencies**: `npm install`
+**Backend (Express API):**
+```bash
+npm install
+npm start        # Runs on http://localhost:3000
+```
+
+**Frontend (React):**
+```bash
+cd client
+npm install
+npm run dev      # Runs on http://localhost:5173
+npm run build    # Production build for Vercel
+```
 
 ## Architecture
 
-This is an Express.js e-commerce application with MongoDB and EJS templating, following MVC pattern.
+This is a decoupled application with React frontend and Express API backend.
 
-### Entry Points
-- `server.js` - Application entry point, MongoDB connection via Mongoose
-- `app.js` - Express app configuration, middleware setup, route mounting
+```
+expressNreact/
+├── server.js              # API entry point, MongoDB connection
+├── app.js                 # Express config, CORS, routes
+├── controllers/           # JSON API handlers
+├── routes/                # API route definitions
+├── models/                # Mongoose schemas (User, Product)
+├── middleware/            # Logger, API key auth
+└── client/                # React frontend (Vite)
+    ├── src/
+    │   ├── components/    # Navbar
+    │   ├── pages/         # Home, Products, Users
+    │   ├── services/      # API fetch functions
+    │   └── App.jsx        # Router setup
+    └── .env               # VITE_API_URL
+```
 
-### Request Flow
-1. Global middleware: `express.json()`, `express.urlencoded()`, custom `logger`
-2. Static files served from `/public`
-3. Routes mounted at `/api/v1/users` and `/api/v1/products`
-4. Auth middleware (`x-api-key` header validation) applied selectively to POST product creation
+## API Endpoints
 
-### Key Directories
-- `controllers/` - Request handlers (product CRUD, user endpoints)
-- `routes/` - Route definitions with middleware binding
-- `models/` - Mongoose schemas (Product: name, price, createdAt)
-- `views/` - EJS templates with partials (head, nav, footer)
-- `middleware/` - Logger and API key auth
+**Users:**
+- `GET /api/v1/users?search=&sort=newest|oldest|name_asc|name_desc`
+- `GET /api/v1/users/:id`
+- `POST /api/v1/users` - Body: `{ "name": "..." }`
+- `DELETE /api/v1/users/:id`
 
-### Product API Endpoints
-- `GET /api/v1/products/view` - Renders product catalog with search/sort (`?search=term&sort=price_asc|price_desc|newest`)
-- `POST /api/v1/products` - Create product (requires `x-api-key` header)
-- `POST /api/v1/products/delete/:id` - Delete product by MongoDB ID
+**Products:**
+- `GET /api/v1/products?search=&sort=newest|oldest|price_asc|price_desc`
+- `GET /api/v1/products/:id`
+- `POST /api/v1/products` - Requires `x-api-key` header, Body: `{ "name": "...", "price": 99 }`
+- `DELETE /api/v1/products/:id`
 
-### Environment Variables
-Required in `.env`:
+## Environment Variables
+
+**Backend (.env):**
 - `PORT` - Server port (default 3000)
 - `DATABASE_URL` - MongoDB Atlas connection string
-- `API_KEY` - API key for authenticated endpoints
+- `API_KEY` - API key for product creation
+- `FRONTEND_URL` - Frontend URL for CORS (default http://localhost:5173)
 
-## Key Patterns
+**Frontend (client/.env):**
+- `VITE_API_URL` - Backend API URL (default http://localhost:3000/api/v1)
 
-- Controllers use async/await with try-catch for error handling
-- Product search uses case-insensitive regex on name field
-- EJS templates receive `title`, `page_name`, `searchTerm`, `currentSort` for rendering context
-- Static assets path uses `/CSS/style.css` (note capitalization)
+## Deployment
+
+- **Backend**: Render (Web Service)
+- **Frontend**: Vercel (Static Site)
+
+Update environment variables on each platform to point to production URLs.
