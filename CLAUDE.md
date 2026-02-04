@@ -24,19 +24,56 @@ This is a decoupled application with React frontend and Express API backend.
 
 ```
 expressNreact/
-├── server.js              # API entry point, MongoDB connection
-├── app.js                 # Express config, CORS, routes
-├── controllers/           # JSON API handlers
-├── routes/                # API route definitions
-├── models/                # Mongoose schemas (User, Product)
-├── middleware/            # Logger, API key auth
-└── client/                # React frontend (Vite)
+├── server.js                 # Entry point, MongoDB connection
+├── app.js                    # Express config, CORS, routes
+├── package.json              # Backend dependencies
+├── .env                      # Backend env vars (local)
+├── CLAUDE.md                 # Project documentation
+│
+├── controllers/
+│   ├── product.controller.js # Product API handlers
+│   └── user.controller.js    # User API handlers
+│
+├── routes/
+│   ├── product.routes.js     # Product endpoints
+│   └── user.routes.js        # User endpoints
+│
+├── models/
+│   ├── product.model.js      # Mongoose Product schema
+│   └── user.model.js         # Mongoose User schema
+│
+├── middleware/
+│   ├── auth.js               # API key authentication
+│   └── logger.js             # Request logger
+│
+└── client/                   # React Frontend (Vite)
+    ├── index.html
+    ├── package.json
+    ├── vite.config.js
+    ├── vercel.json           # SPA routing config
+    ├── .env                  # Frontend env vars
+    │
     ├── src/
-    │   ├── components/    # Navbar
-    │   ├── pages/         # Home, Products, Users
-    │   ├── services/      # API fetch functions
-    │   └── App.jsx        # Router setup
-    └── .env               # VITE_API_URL
+    │   ├── main.jsx          # React entry point
+    │   ├── App.jsx           # Router setup
+    │   ├── App.css
+    │   ├── index.css
+    │   │
+    │   ├── components/
+    │   │   ├── Navbar.jsx
+    │   │   └── Navbar.css
+    │   │
+    │   ├── pages/
+    │   │   ├── Home.jsx
+    │   │   ├── Products.jsx
+    │   │   ├── Users.jsx
+    │   │   └── Pages.css
+    │   │
+    │   └── services/
+    │       └── api.js        # API fetch functions
+    │
+    └── public/
+        └── vite.svg
 ```
 
 ## API Endpoints
@@ -69,4 +106,10 @@ expressNreact/
 - **Backend**: Render (Web Service)
 - **Frontend**: Vercel (Static Site)
 
-Update environment variables on each platform to point to production URLs.
+**Live URLs:**
+- Frontend: https://express-react-fullstack.vercel.app
+- Backend API: https://express-react-pi.onrender.com/api/v1
+
+**Environment variables to set:**
+- Render: `DATABASE_URL`, `API_KEY`, `FRONTEND_URL` (Vercel URL, no trailing slash)
+- Vercel: `VITE_API_URL` (Render URL + /api/v1)
